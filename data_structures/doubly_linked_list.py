@@ -96,6 +96,13 @@ class LinkedList:
                     if (node.nxt == None):
                         break
                     node = node.nxt
+
+    def generate(self):
+        node = self.start
+        while(node):
+            to_y = node
+            node = node.nxt
+            yield(to_y)
                     
     def __repr__(self):
         lst = ""
@@ -127,3 +134,6 @@ print(lst.findNextByKey(4))
 # [ 4.k <- 3.b <- 2.x ]
 print(lst.updateByKey(4,"k1"))
 # 0 : [ None <- 4.k1 <- 3.b ] | 1 : [ 4.k1 <- 3.b <- 2.x ] | 2 : [ 3.b <- 2.x <- 1.a ] | 3 : [ 2.x <- 1.a <- None ] | 
+for i in lst.generate():
+    print(i.key,i.data)
+
