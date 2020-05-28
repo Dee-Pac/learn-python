@@ -5,15 +5,15 @@ orbs:
 
 jobs:
   build-and-test:
-    executor: python/default
+    docker:
+      - image: python:3.6.10-alpine3.11
     steps:
       - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
       - run:
-          command: ./manage.py test
-          name: Test
+          name: Dummy Run
+          command: |
+            ls -al
+            apk add --no-cache git
 
 workflows:
   main:
