@@ -1,3 +1,63 @@
+# Required for Level Order traversal 
+ 
+class QNode:
+    def __init__(self,data,nxt= None):
+        self.data = data
+        self.nxt = nxt
+
+    def __repr__(self):
+        return str(self.data)
+
+# Required for Level Order traversal 
+
+class Q:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+    
+    def is_empty(self):
+        return (self.head == None)
+
+    def enq(self,data):
+        new_node = QNode(data)
+        if (not self.is_empty()):
+            self.tail.nxt = new_node
+            self.tail = new_node
+        else:
+            self.head = new_node
+            self.tail = new_node
+        return self
+
+    def dq(self):
+        if (not self.is_empty()):
+            k = self.head
+            self.head = self.head.nxt
+            return k
+        else:
+            return None
+
+    def __repr__(self):
+        s = ""
+        node = self.head
+        while (node):
+            s+= str(node.data) + "<-"
+            node = node.nxt
+        return s
+            
+
+q = Q()
+q.enq(1).enq(2).enq(3).enq(4)
+print(q)
+# 1<-2<-3<-4<-
+q.dq()
+print(q)
+# 2<-3<-4<-
+q.dq()
+k = q.dq()
+print(k,q)
+# (3, 4<-)
+
+
 class Node:
     def __init__(self,data,left=None,right=None):
         self.data = data
@@ -65,6 +125,7 @@ class BST:
     def __init__(self):
         self.root = None
 
+    # Youtube reference https://www.youtube.com/watch?v=86g8jAQug04
     def print_pre_order(self):
         print("---- pre order ----")
         if (self.root):
@@ -85,6 +146,26 @@ class BST:
             self.root.post_order()
         else:
             print("---- EMPTY ----")
+
+    # Youtube reference https://www.youtube.com/watch?v=86g8jAQug04
+    def print_level_order(self,q=None):
+        if (self.root == None):
+            print("---- EMPTY ----")
+            return
+        if (q==None):
+            print("---- level order ----")
+            q = Q()
+            q.enq(self.root)
+        if (not q.is_empty()):
+            node = q.dq().data
+            print(node)
+            if (node.left): 
+                q.enq(node.left)
+            if (node.right): 
+                q.enq(node.right)
+            self.print_level_order(q)
+        else:
+            print("--- END Level Order ----")
 
     def find(self,data):
         print("---- Looking for [{}] ----".format(data))
@@ -108,7 +189,7 @@ class BST:
 
 t = BST()
 t.append(15).append(10).append(20)
-t.append(20,8,6,12,17,25,16,27)
+t.append(8,6,12,17,25,16,27)
 t.find(12)
 # ---- Looking for [12] ----
 # traversing [15] 
@@ -168,3 +249,16 @@ t.print_post_order()
 # left [] | data [25] right | [27] total children | [1]
 # left [] | data [27] right | [] total children | [0]
 # left [10] | data [15] right | [20] total children | [10]
+t.print_level_order()
+# ---- level order ----
+# left [10] | data [15] right | [20] total children | [9]
+# left [8] | data [10] right | [12] total children | [3]
+# left [17] | data [20] right | [25] total children | [4]
+# left [6] | data [8] right | [] total children | [1]
+# left [] | data [12] right | [] total children | [0]
+# left [16] | data [17] right | [] total children | [1]
+# left [] | data [25] right | [27] total children | [1]
+# left [] | data [6] right | [] total children | [0]
+# left [] | data [16] right | [] total children | [0]
+# left [] | data [27] right | [] total children | [0]
+# --- END Level Order ----
