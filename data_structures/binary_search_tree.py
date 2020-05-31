@@ -125,6 +125,7 @@ class BST:
     def __init__(self):
         self.root = None
 
+    # Youtube reference https://www.youtube.com/watch?v=86g8jAQug04
     def print_pre_order(self):
         print("---- pre order ----")
         if (self.root):
@@ -146,6 +147,7 @@ class BST:
         else:
             print("---- EMPTY ----")
 
+    # Youtube reference https://www.youtube.com/watch?v=86g8jAQug04
     def print_level_order(self,q=None):
         if (self.root == None):
             print("---- EMPTY ----")
