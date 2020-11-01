@@ -150,13 +150,9 @@ print(" ---- URL / CURL RESPONSE  -----")
 print("+++++++++++++++++++++++++++++++++++++")
 
 import requests
-# api-endpoint
-URL = "http://maps.googleapis.com/maps/api/geocode/json"
+
 URL = "https://api.github.com/users/Dee-Pac/repos"
-# location given here
-location = "delhi technological university"
-# defining a params dict for the parameters to be sent to the API
-PARAMS = {'address':location}
+PARAMS = {'id':1212}
 PARAMS = {}
 # sending get request and saving the response as response object
 r = requests.get(url = URL, params = PARAMS, verify = False)
