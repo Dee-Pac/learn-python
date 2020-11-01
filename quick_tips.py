@@ -216,7 +216,29 @@ writer.close()
 
 ## Class, Inheritence
 
-## JSON, CSV
+## JSON
+
+import json,requests
+
+# Request from URL
+data = requests.get("https://api.github.com/users/Dee-Pac/repos",params = {},verify = False)
+# Get dictionary
+dict_data = data.json()
+# Convert dict to JSON
+json_data = json.dumps(dict_data)
+# convert JSON to dict
+d_data = json.loads("""{"id":1,"name":"deepak"}""")
+print(d_data)
+
+fp = open("/tmp/github_repo.json","w")
+fp.write(json_data + "\n")
+fp.close()
+
+fp = open("/tmp/github_repo.json","r")
+# load json file as dict
+k = json.load(fp)
+print(k)
+fp.close()
 
 ## Multithreading, Multiprocessing
 
