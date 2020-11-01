@@ -165,9 +165,50 @@ data = r.json()
 import json
 print(json.dumps(data))
 
-## Regex
 
-## Read / write to file
+
+print("+++++++++++++++++++++++++++++++++++++")
+print(" ---- FILE HANDLER  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
+
+# https://www.techbeamers.com/python-file-handling-tutorial-beginners/
+
+print("----With Auto-closes the file, at the end of operation----\n")
+print("----Process line by line----\n")
+with open("/Users/dmohanakumarchan/code/GEM/neo4j/import/pc_storage.csv","r") as fp:
+    for line in fp:
+        print(line)
+
+print("----Process all lines at once----\n")
+with open("/Users/dmohanakumarchan/code/GEM/neo4j/import/pc_storage.csv","r") as fp:
+    lines = fp.readlines()
+    for num,line in enumerate(lines):
+        print(num,line)
+
+writer  = open("/tmp/testing.out","w")
+
+print("----Process few chars each time----\n")
+fp =  open("/Users/dmohanakumarchan/code/GEM/neo4j/import/pc_storage.csv","r")
+print("----Read 10 chars----\n")
+print(fp.read(10))
+print(fp.tell())
+print("----Read 10 chars----\n")
+print(fp.readline(10))
+print(fp.tell())
+fp.seek(0)
+print("----Read entire file as string----\n")
+data_string = fp.read()
+fp.seek(0)
+print("----Read entire file as list of lines----\n")
+lines = fp.readlines()
+print(type(data_string),type(lines))
+fp.close()
+writer.write(data_string + "\n")
+writer.writelines(lines)
+writer.close()
+
+## Regex
 
 ## URL parsing
 
