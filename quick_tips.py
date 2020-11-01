@@ -1,18 +1,22 @@
+print("+++++++++++++++++++++++++++++++++++++")
 print("------Randomize------")
+print("+++++++++++++++++++++++++++++++++++++")
 
 import random
 l = list(range(1,10))
 random.shuffle(l)
 print(l)
 
+print("+++++++++++++++++++++++++++++++++++++")
 print("------Sample------")
-## 
+print("+++++++++++++++++++++++++++++++++++++")
 
 sample = random.sample(l,3)
 print(sample,l)
 
+print("+++++++++++++++++++++++++++++++++++++")
 print("------Hash function------")
-## 
+print("+++++++++++++++++++++++++++++++++++++")
 
 import hashlib
 
@@ -23,22 +27,25 @@ intval = int(hexval,16)
 two_digit_hash = intval % 10**2
 print("hexval [{}] intval [{}] 2_digit [{}]".format(hexval,intval,two_digit_hash))
 
+print("+++++++++++++++++++++++++++++++++++++")
 print("------Remove Duplicates------")
-## 
+print("+++++++++++++++++++++++++++++++++++++")
 
 l1 = list(range(1,3)) + list(range(1,5))
 print(l1,list(set(l1)))
 
+print("+++++++++++++++++++++++++++++++++++++")
 print("------if list has same entry------")
-## 
+print("+++++++++++++++++++++++++++++++++++++")
 
 from collections import Counter
 Counter(l1)
 l2 = list([1, 2, 4, 2, 3,1])
 print(Counter(l1)==Counter(l2))
 
+print("+++++++++++++++++++++++++++++++++++++")
 print("------Dictionary merge------")
-## 
+print("+++++++++++++++++++++++++++++++++++++")
 
 keys = [1,2,3,4]
 values = ["a","b","c","d"]
@@ -51,14 +58,15 @@ d2 = {10:"deepak"}
 d1.update(d2)
 print(d1)
 
-
+print("+++++++++++++++++++++++++++++++++++++")
 print("------Dictionary to List------")
+print("+++++++++++++++++++++++++++++++++++++")
 
 print(list(d1.items()))
 
-
+print("+++++++++++++++++++++++++++++++++++++")
 print("------List operations------")
-## List slicing, head, tail, reverse
+print("+++++++++++++++++++++++++++++++++++++")
 
 ## reverse iterate
 l = range(1,21)
@@ -74,8 +82,9 @@ while (c <len(l)-1):
 
 print("slices --> {}".format(slices))
 
-## Exception handling
-
+print("+++++++++++++++++++++++++++++++++++++")
+print("--------Exception handling------------")
+print("+++++++++++++++++++++++++++++++++++++")
 import sys
 try:
     "a" +1
@@ -85,31 +94,51 @@ except:
 finally:
     pass
     
-
+print("+++++++++++++++++++++++++++++++++++++")
 print(" ---- Map  -----")
+print("+++++++++++++++++++++++++++++++++++++")
 
 for i in map(lambda x: x+1,l):
     print(i)
     
+print("+++++++++++++++++++++++++++++++++++++")
 print(" ---- reduce  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
 import functools
 print(functools.reduce(lambda a,b:a+b, l))
 
+print("+++++++++++++++++++++++++++++++++++++")
 print(" ---- itertools  -----")
+print("+++++++++++++++++++++++++++++++++++++")
 
 import itertools
 
+print("+++++++++++++++++++++++++++++++++++++")
 print(" ---- permutations  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
 for i in itertools.permutations(range(0,3),2):
     print(i)
+    
+print("+++++++++++++++++++++++++++++++++++++")
 print(" ---- combinations  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
 for i in itertools.combinations(range(0,3),2):
     print(i)
+
+print("+++++++++++++++++++++++++++++++++++++")
 print(" ---- product  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
 for i in itertools.product(range(0,3),repeat=3):
     print(i)
     
-print(" ---- accumulate  -----")    
+print("+++++++++++++++++++++++++++++++++++++")
+print(" ---- accumulate  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
 import operator
 l = range(1,5)
 for i in itertools.accumulate(l,operator.mul):
