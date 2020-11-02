@@ -210,7 +210,42 @@ writer.close()
 
 ## Time & Date
 
-## Class, Inheritence
+print("+++++++++++++++++++++++++++++++++++++")
+print(" ---- CLASS INHERITENCE  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
+import json
+
+class Window:
+    def __init__(self,window_l,window_h):
+        self.w_length = window_l
+        self.w_height = window_h
+        
+    def __repr__(self):
+        return json.dumps(self.__dict__)
+    
+
+class Door:
+    def __init__(self,door_l,door_h):
+        self.length = door_l
+        self.height = door_h
+        
+    def __repr__(self):
+        return json.dumps(self.__dict__)
+
+class House(Window,Door):
+    def __init__(self,address,window_l,window_h,door_l,door_h):
+        Window.__init__(self,window_l,window_h)
+        Door.__init__(self,door_l,door_h)
+        self.address = address
+        
+    def __repr__(self):
+        return json.dumps(self.__dict__)
+
+
+
+my_house = House("california",300,100,250,200)
+print(my_house)
 
 print("+++++++++++++++++++++++++++++++++++++")
 print(" ---- JSON  -----")
