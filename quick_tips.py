@@ -357,7 +357,33 @@ lock.release()
 
 ## URL parsing
 
-## Time & Date
+
+print("+++++++++++++++++++++++++++++++++++++")
+print(" ---- TIME & DATE  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
+import time, datetime
+
+# ---- TIME Difference ----
+
+t1 = time.time()
+time.sleep(2)
+t2 = time.time()
+
+print("difference seconds {}".format(t2-t1))
+
+# ---- DATE Difference ----
+
+# finding time difference
+date1 = datetime.datetime.strptime("2020-12-31 00:00:00","%Y-%m-%d %H:%M:%S")
+date2 = datetime.datetime.strptime("2021-12-31 00:00:00","%Y-%m-%d %H:%M:%S")
+time_delta = date2-date1
+
+# adding time to dates
+time_delta = datetime.timedelta(hours=-48)
+new_date = date1 + time_delta
+print("old date [{}] with delta [{}] = new date [{}]".format(date1,time_delta,new_date))
+print(str(date2))
 
 
 print("+++++++++++++++++++++++++++++++++++++")
