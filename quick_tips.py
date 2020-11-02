@@ -355,7 +355,19 @@ lock.release()
 
 ## Regex
 
-## URL parsing
+print("+++++++++++++++++++++++++++++++++++++")
+print(" ---- URL Parsing  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
+import urllib
+
+str = "https://cloud.google.com/dataproc/docs/concepts/versioning/dataproc-release-1.5"
+
+url = urllib.parse.urlparse(str)
+print(url)
+
+str1 = urllib.parse.urlunparse(url)
+print(str1)
 
 
 print("+++++++++++++++++++++++++++++++++++++")
