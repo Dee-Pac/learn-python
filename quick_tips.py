@@ -359,8 +359,46 @@ lock.release()
 
 ## Time & Date
 
-import sqlite3
 
+print("+++++++++++++++++++++++++++++++++++++")
+print(" ---- DATABASE  -----")
+print("+++++++++++++++++++++++++++++++++++++")
+
+## ---- MYSQL ---- 
+
+import mysql.connector
+import sys
+
+class SQLConnector:
+    def __init__(self,host,user,password,database):
+        self.host = host
+        self.user = user
+        self.password = password
+        self.database = database
+        self.connector = mysql.connector
+
+    def executeSQL(self,sqlText):
+        con = self.connector.connect(host = self.host,user = self.user,password = self.password,database = self.database)
+        result = None
+        try:
+            cursor = con.cursor()
+            cursor.execute(sqlText)
+            result = cursor.fetchall()
+        except:
+            e = sys.exc_info()
+            print(e)
+        finally:
+            con.close()
+        return result
+
+mysql = SQLConnector(host="localhost", user="user",password = "password",database="db1")
+k = mysql.executeSQL("show databases")
+print(k)
+k = mysql.executeSQL("show databases")
+print(k)
+
+## -- SQLLITE ----
+import sqlite3
 
 con = sqlite3.connect("a.b")
 k  =con.cursor()
@@ -382,13 +420,4 @@ for row in k.fetchall():
     print(row)
     
 
-import sys
-try:
-    import mysql.connector
-    con = mysql.connector.connect(host = "",port = "", user = "", password = "", database = "")
-    cur = con.cursor()
-except:
-    e = sys.exc_info()
-    print(e)
-finally:
-    print(con.close())
+
