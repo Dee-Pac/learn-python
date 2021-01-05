@@ -458,4 +458,59 @@ for row in k.fetchall():
     print(row)
     
 
+###########################
+# Custom logging
+###########################
 
+
+import sys, inspect, time
+
+class Logger():
+    
+    def __init__(self, name = None):
+        self.name = name
+    
+    def info(self,msg):
+        caller = inspect.currentframe().f_back.f_code.co_name
+        this_time = time.asctime()
+        print("{} | {} | {} | {}".format(this_time,self.name,caller,msg))
+
+    def error(self,msg):
+        caller = inspect.currentframe().f_back.f_code.co_name
+        this_time = time.asctime()
+        print("{} | {} | {} | {}".format(this_time,self.name,caller,msg))
+        
+class Grid:
+    def __init__(self,row,col):
+        self.logger = Logger(self.__class__.__name__)
+        self.row = row
+        self.col = col
+        self.grid = list()
+        for i in range(0,row):
+            cols = [None] * col
+            self.grid.append(cols)
+            for j in range(0,col):
+                cell = "({},{})".format(i,j)
+                self.grid[i][j] = cell
+        self.logger.info("Initiated")
+        
+
+    def __repr__(self):
+        print(self.grid)
+        s = ""
+        for row in self.grid:
+            s = s+ str(row) + "\n"
+        return s
+        
+    def moveRight(self):
+        self.logger.info("moving")
+        
+class Another:
+    def __init__(self):
+        logger = Logger(self.__class__.__name__)
+        logger.info("Initiated")
+        
+another = Another()
+        
+grid = Grid(3,4)
+grid.moveRight()
