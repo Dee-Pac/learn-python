@@ -514,3 +514,40 @@ another = Another()
         
 grid = Grid(3,4)
 grid.moveRight()
+
+
+
+#######################
+### Recursion & Dynamic programming
+#######################
+
+x,y = 15,18
+def gridTravel(m,n,d = dict()):
+    # print(m,n,d)
+    if (m == 1) or (n==1): 
+        return 1
+    else:
+        key = "{}_{}".format(m,n)
+        if key in d:
+            return d[key]
+        else:
+            res = gridTravel(m-1,n,d) + gridTravel(m,n-1,d)
+            d[key] = res
+            return res
+
+t1 = time.time()
+print(gridTravel(x,y))
+t2 = time.time()
+print(t2-t1)
+
+def gridTravel(m,n,d = dict()):
+    if (m == 1) or (n==1): 
+        return 1
+    else:
+        return gridTravel(m-1,n,d) + gridTravel(m,n-1,d)
+
+t1 = time.time()
+print(gridTravel(x,y))
+t2 = time.time()
+print(t2-t1)
+
