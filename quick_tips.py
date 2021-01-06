@@ -551,3 +551,16 @@ print(gridTravel(x,y))
 t2 = time.time()
 print(t2-t1)
 
+def fib(x,d = dict()):
+    if x<=2: 
+        return 1
+    else:
+        if x in d:
+            return d[x]
+        else:
+            d[x] = fib(x-1,d) + fib(x-2,d)
+            return d[x]
+    
+x = 50
+print(fib(x))
+
