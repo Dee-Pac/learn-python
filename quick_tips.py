@@ -564,3 +564,61 @@ def fib(x,d = dict()):
 x = 50
 print(fib(x))
 
+
+#############################
+# Testing
+#############################
+
+from math import pi
+import unittest
+
+class Student(object):
+
+    def __init__(self, first_name, last_name):
+        self.first_name = first_name
+        self.last_name = last_name
+
+    @classmethod
+    def from_string(cls, name_str):
+        first_name, last_name = map(str, name_str.split(' '))
+        student = cls(first_name, last_name)
+        return student
+    
+    @staticmethod
+    def area(r):
+        if (not isinstance(r,int)):
+            raise TypeError("illegal Argument {argument}".format(argument = r))
+        if (r<0):
+            raise ValueError("Incorrect input {radius}".format(radius = r))
+        else:
+            area = (r**2)
+            message = "Area of circle with Radius {radius} is {a}".format(radius = r, a = area)
+            print(message)
+            return area
+        
+class TestStudent(unittest.TestCase):
+    
+    def setup
+    
+
+    def test_area(self):
+        self.assertAlmostEqual(Student.area(2),4)
+        self.assertAlmostEqual(Student.area(0),0)
+        
+    def test_input(self):
+        self.assertRaises(TypeError, Student.area, "a")
+        self.assertRaises(TypeError, Student.area, 1.1)
+
+        
+
+# scott = Student.from_string('Scott Robinson')
+# print(scott)
+
+# print(Student.area(3))
+# # print(Student.area(-1))
+# print(Student.area(0))
+# print(Student.area(3j))
+
+
+unittest.main()
+
