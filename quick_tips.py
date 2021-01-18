@@ -622,3 +622,238 @@ class TestStudent(unittest.TestCase):
 
 unittest.main()
 
+
+
+
+
+
+########################## DATA STRUCTURES ###############################
+
+
+
+class QNode:
+    
+    def __init__(self,data, front = None, back = None):
+        self.data = data
+        self.front = front
+        self.back = back
+        
+    def __repr__(self):
+        return str(self.__dict__)
+    
+
+class Q:
+    
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        
+    def __repr__(self):
+        msg = "head - {head}\n"
+        msg += "tail - {tail}"
+        return msg.format(head = self.head, tail = self.tail)
+    
+    def is_empty(self):
+        if (self.head is None):
+            return True
+        else:
+            return False
+    
+    def enq(self, data):
+        if (self.head is None):
+            node = QNode(data)
+            self.head = self.tail = node
+        else:
+            tail = self.tail
+            new_node = QNode(data,front = tail)
+            self.tail.back = new_node
+            self.tail = new_node
+        return self
+    
+    def dq(self):
+        if (self.head is None):
+            return None
+        else:
+            node = self.head
+            self.head = node.back
+            if (node.back):
+                node.back.front = None
+            return node
+    
+    def traverse(self, reverse = False):
+        print(20 * "-")
+        if (not reverse):
+            node = self.head 
+            while (node is not None):
+                print(node)
+                node = node.back
+        else:
+            node = self.tail
+            while (node is not None):
+                print(node)
+                node = node.front
+                
+
+    
+    
+# q = Q()
+# # print(q)
+# q.enq(10).enq(20).enq(30).enq(40)
+# # print(q)
+
+# q.dq()
+# q.traverse()
+# q.dq()
+# q.traverse()
+# q.dq()
+# q.traverse()
+# q.dq()
+# q.traverse()
+# q.dq()
+# q.traverse()
+            
+        
+        
+
+
+class TNode:
+    """
+    Node contains the data and the children
+    data -> contains the data
+    left -> points to left child
+    right -> points to right child
+    """
+    
+    
+    def __init__(self,data, left = None, right = None):
+        """
+        Initiate TreeNode 
+        """
+        self.data = data
+        self.left = left
+        self.right = right
+        
+        
+    def __repr__(self):
+        """
+        Return TNode as a String
+        """
+        data = "[{}]".format(self.data)
+        
+        if (self.left is not None):
+            left = "[{}]".format(self.left.data)
+        else:
+            left = "[NONE]"
+        
+        if (self.right is not None):
+            right = "[{}]".format(self.right.data)
+        else:
+            right = "[NONE]"
+            
+        
+        return "{} <- {} -> {}".format(left,data,right)
+    
+class Tree:
+    """
+    Implements Tree functionalities
+    
+    1. Insert
+    2. Delete
+    3. Search (BFS / DFS)
+    
+    """
+    
+    def __init__(self):
+        self.root = None
+
+        
+    def insert(self, data:int, node = None):
+        """
+        Makes the node as root, if tree is empty or if node is None.
+        Else, inserts the data at right location in the tree traversing from given node.
+        """
+        
+        if (self.root is None):
+            print("Inserted {} at root".format(data))
+            newNode = TNode(data)
+            self.root = newNode
+        else:
+            if (node is None):
+                node = self.root
+                print("\n\ninserting {}\n\n".format(data))
+                self.insert(data,node)
+            else:
+                if (data <= node.data):
+                    print("""make left operation on {}""".format(node))
+                    if (node.left is None):
+                        newNode = TNode(data)
+                        node.left = newNode
+                    else:
+                        self.insert(data,node.left)
+                else:
+                    print("""make right operation on {}""".format(node))
+                    if (node.right is None):
+                        newNode = TNode(data)
+                        node.right = newNode
+                    else:
+                        self.insert(data,node.right)  
+        return self
+    
+    
+    
+    def insert_elements(self, data:list, node = None):
+        """inserts a given list of integers into the Tree"""
+        
+        for element in data:
+            self.insert(element)
+        
+        return self
+    
+    
+    
+    def __bfs__(self,data,q:Q):
+        """internal function to implement recursive breadth first search"""
+        
+        if (q.is_empty()):
+            return False
+        else:
+            node = q.enq()
+            if (data == node.data):
+                return node
+            else:
+                if (node.left is not None):
+                    q.enq(node.left)
+                if (node.right is not None):
+                    q.enq(node.right)
+                return self.__bfs__(data,q)
+    
+    
+    
+    def bfs(self,data):
+        """breadth first search"""
+        
+        if (self.root is None):
+            return None
+        else:
+            node = self.root
+            q = Q()
+            q.enq(node)
+            return (self.__bfs,data,q)
+
+
+
+import random
+inputs = list(range(-20,20))
+random.shuffle(inputs)
+    
+
+node = TNode(10)
+print(node)
+
+
+
+tree = Tree()
+tree.insert_elements(inputs)
+tree.insert(100).insert(200).insert(-100).insert(250)
+
+
