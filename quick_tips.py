@@ -630,7 +630,6 @@ unittest.main()
 ########################## DATA STRUCTURES ###############################
 
 
-
 class QNode:
     
     def __init__(self,data, front = None, back = None):
@@ -774,24 +773,24 @@ class Tree:
         """
         
         if (self.root is None):
-            print("Inserted {} at root".format(data))
+            # print("Inserted {} at root".format(data))
             newNode = TNode(data)
             self.root = newNode
         else:
             if (node is None):
                 node = self.root
-                print("\n\ninserting {}\n\n".format(data))
+                # print("\n\ninserting {}\n\n".format(data))
                 self.insert(data,node)
             else:
                 if (data <= node.data):
-                    print("""make left operation on {}""".format(node))
+                    # print("""make left operation on {}""".format(node))
                     if (node.left is None):
                         newNode = TNode(data)
                         node.left = newNode
                     else:
                         self.insert(data,node.left)
                 else:
-                    print("""make right operation on {}""".format(node))
+                    # print("""make right operation on {}""".format(node))
                     if (node.right is None):
                         newNode = TNode(data)
                         node.right = newNode
@@ -814,11 +813,15 @@ class Tree:
     def __bfs__(self,data,q:Q):
         """internal function to implement recursive breadth first search"""
         
+        print("breadth first search for {} in {}".format(data,q))
+        
         if (q.is_empty()):
-            return False
+            return None
         else:
-            node = q.enq()
+            qNode = q.dq()
+            node = qNode.data
             if (data == node.data):
+                print("FOUND {} in {}".format(data,node))
                 return node
             else:
                 if (node.left is not None):
@@ -832,28 +835,27 @@ class Tree:
     def bfs(self,data):
         """breadth first search"""
         
+        print("breadth first search")
+        
         if (self.root is None):
             return None
         else:
             node = self.root
             q = Q()
             q.enq(node)
-            return (self.__bfs,data,q)
+            return self.__bfs__(data,q)
 
 
 
 import random
 inputs = list(range(-20,20))
 random.shuffle(inputs)
-    
-
-node = TNode(10)
-print(node)
-
 
 
 tree = Tree()
 tree.insert_elements(inputs)
 tree.insert(100).insert(200).insert(-100).insert(250)
-
-
+              
+k = tree.bfs(100000)
+print(k)
+              
