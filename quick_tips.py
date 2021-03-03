@@ -858,4 +858,99 @@ tree.insert(100).insert(200).insert(-100).insert(250)
               
 k = tree.bfs(100000)
 print(k)
+
+
+
+##########--------------- BLOOM FILTER -------------------------################
+
+# https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/
+
+
+import hashlib
+import math
+
+class BloomFilter:
+    def __init__(self, size, probability):
+        
+        self.size = size
+        self.probability = probability
+        self.bitSize = self.__getArraySize__(size, probability)
+        self.bitarray = [0] * self.bitSize
+        self.hashCount = self.__getNumberOFHashFunctions__(self.bitSize, size)
+        
+    def __repr__(self):
+        return str(self.__dict__)
+        
+    def __getArraySize__(self, n, p):
+        m = -(n * math.log(p))/(math.log(2)**2)
+        return int(m)
+    
+    def __getNumberOFHashFunctions__(self, m, n):
+        k = (m/n) * math.log(2)
+        return int(k)
+    
+    def __getHash__(self, object):
+        func = hashlib.md5()
+        func.update(object.encode())
+        return func.hexdigest()
+    
+    def __getBitPositions__(self, object):
+        bitPositions = []
+        for i in range(self.hashCount):
+            hexDigest = self.__getHash__(("{}_{}".format(object,i)))
+            # print(hexDigest)
+            bitPositions.append(int(hexDigest,16) % self.bitSize)
+        return bitPositions
+    
+    def add(self, object):
+        bitPositions = self.__getBitPositions__(object)
+        # print("bitPositions", bitPositions)
+        for position in bitPositions:
+            self.bitarray[position]=1
+    
+    def check(self, object):
+        bitPositions = self.__getBitPositions__(object)
+        for position in bitPositions:
+            if self.bitarray[position] == 0:
+                return False
+        return True
+
+            
+        
+
+    
+bloomf = BloomFilter(20, 0.05)
+
+# bloomf.add("cat")
+# print(bloomf.check("cat"))
+# bloomf.add("cat1")
+# print(bloomf.check("cat1"))
+# bloomf.add("cat2")
+# print(bloomf.check("cat2"))
+# # print(bloom)
+
+# words to be added
+word_present = ['abound','abounds','abundance','abundant','accessable',
+                'bloom','blossom','bolster','bonny','bonus','bonuses',
+                'coherent','cohesive','colorful','comely','comfort',
+                'gems','generosity','generous','generously','genial']
+ 
+# word not added
+word_absent = ['bluff','cheater','hate','war','humanity',
+               'racism','hurt','nuke','gloomy','facebook',
+               'geeksforgeeks','twitter']
+ 
+for item in word_present:
+    bloomf.add(item)
+    
+test_words = word_present[:10] + word_absent
+# shuffle(test_words)
+for word in test_words:
+    if bloomf.check(word):
+        if word in word_absent:
+            print("'{}' is a false positive!".format(word))
+        else:
+            print("'{}' is probably present!".format(word))
+    else:
+        print("'{}' is definitely not present!".format(word))
               
