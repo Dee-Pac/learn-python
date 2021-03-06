@@ -953,4 +953,30 @@ for word in test_words:
             print("'{}' is probably present!".format(word))
     else:
         print("'{}' is definitely not present!".format(word))
-              
+        
+
+##### --- SINGLETON ---- #####
+
+class Person(object):
+    
+    _instance = None
+    
+    def __new__(cls, name, age):
+        if cls._instance is None:
+            cls._instance = super(Person,cls).__new__(cls)
+            cls._instance.name = name
+            cls._instance.age = age
+        return cls._instance
+    
+    def __repr__(self):
+        return str(self.__dict__)
+            
+    
+p = Person("deepak",10)
+print(p)
+# {'name': 'deepak', 'age': 10}
+p2 = Person("a",1)
+print(p2)
+# {'name': 'deepak', 'age': 10}
+print(p == p2)
+# True              
