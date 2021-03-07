@@ -1065,3 +1065,99 @@ t2.start()
 print("End of Main")
 
 
+############## FUTURES #################
+import threading, collections, time, random, concurrent
+
+class NonBlockingQ:
+    
+    def __init__(self,capacity):
+        
+        self.capacity = capacity
+        self.currentSize = 0
+        self.lock = threading.RLock()
+        self.q = collections.deque()
+        self.put_q = collections.deque()
+        self.get_q = collections.deque()
+        
+    def __repr__(self):
+        return str(self.__dict__)
+        
+    def enq(self,item):
+        
+        with self.lock:
+            future = None
+            if (self.capacity == self.currentSize):
+                future = concurrent.futures.Future()
+                self.put_q.append(future)
+            else:
+                self.q.append(item)
+                self.currentSize += 1
+                if (len(self.get_q) >0):
+                    next_awaiting_get:concurrent.futures.Future = self.get_q.popleft()
+                    next_awaiting_get.set_result(True)
+            return future
+                
+    def dq(self):
+
+        with self.lock:
+            result, future = None, None
+            if (self.currentSize == 0):
+                future = concurrent.futures.Future()
+                self.get_q.append(future)
+            else:
+                self.currentSize -= 1
+                if (len(self.put_q) >0):
+                    next_awaiting_put:concurrent.futures.Future = self.put_q.popleft()
+                    next_awaiting_put.set_result(True)
+                return self.q.popleft(), future
+            return result, future
+                
+
+def produce(q: NonBlockingQ):
+    item = 1
+    while True:
+        
+        print("producing {}".format(item), flush = True)
+        future:concurrent.futures.Future = q.enq(item)
+        print("produce result {}".format(future), flush = True)
+        if (future):
+            while (future.done() == False):
+                print("sleeping producer ... [{}]".format(
+                    threading.current_thread().getName()), flush=True)
+                time.sleep(random.randint(3, 5))
+        else:
+            item+=1
+            
+        if (item == 15):
+            print(threading.current_thread().getName(), "COMPLETE", flush = True)
+            return
+        
+        
+def consume(q : NonBlockingQ):
+    result = 1
+    while True:
+        
+        result, future = q.dq()
+        if (not future):
+            print("result is [{}] from  ... [{}]".format(result, 
+                                                         threading.current_thread().getName()), flush=True)
+        else:
+            while (future.done() == False):
+                print("sleeping consumer ... [{}]".format(
+                    threading.current_thread().getName()), flush=True)
+                time.sleep(random.randint(1,3))
+            
+        if (result and result == 14):
+            return
+            
+nbq = NonBlockingQ(100)
+
+t2 = threading.Thread(target = consume, name = "Consumer", args = (nbq,))
+t1 = threading.Thread(target = produce, name = "Producer", args = (nbq,))
+
+
+t1.start()
+t2.start()
+
+print("End of Main")
+
