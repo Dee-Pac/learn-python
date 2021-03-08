@@ -1161,3 +1161,82 @@ t2.start()
 
 print("End of Main")
 
+############# Singleton ###################
+
+# https://python-patterns.guide/gang-of-four/singleton/
+
+class Logger(object):
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            print('Creating the object')
+            cls._instance = super(Logger, cls).__new__(cls)
+            # Put any initialization here.
+        return cls._instance
+
+############# Inheritence ###################
+
+# https://realpython.com/inheritance-composition-python/#abstract-base-classes-in-python
+
+import abc, enum
+
+class EmployeeType(enum.Enum):
+    FULL_TIME = 1
+    CONTRACT = 2
+    COMMISSION = 3
+
+class Employee(abc.ABC):
+    
+    def __init__(self, employeeName, employeeId, employeeType = None):
+        self.employeeName = employeeName
+        self.employeeId = employeeId
+        self.employeeType: EmployeeType = employeeType
+        
+    def __repr__(self):
+        return str(self.__dict__)
+    
+    @abc.abstractmethod
+    def getSalary(self):
+        pass
+    
+    
+# e = Employee("deepak", 109)
+
+class SalariedEmployee(Employee):
+    
+    def __init__(self, employeeName, employeeId, salary):
+        super().__init__(employeeName, employeeId, EmployeeType.FULL_TIME)
+        self.salary = salary
+
+        
+    def __repr__(self):
+        return str(self.__dict__)
+    
+    def getSalary(self):
+        return self.salary
+    
+class ContractEmployee(Employee):
+    
+    def __init__(self, employeeName, employeeId, salary):
+        super().__init__(employeeName, employeeId, EmployeeType.CONTRACT)
+        self.salary = salary
+
+    def __repr__(self):
+        return str(self.__dict__)
+    
+    def getSalary(self):
+        return self.salary
+    
+e = SalariedEmployee("deepak", 109, 10)
+e1 = ContractEmployee("deepak1", 109, 10)
+                      
+
+class PayrollCalculator:
+    
+    def __init__(self, employees):
+        self.employees = employees
+        
+    def printPayroll(self):
+        for employee in self.employees:
+            print(employee.getSalary())
