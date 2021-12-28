@@ -1245,6 +1245,38 @@ class PayrollCalculator:
             
 ### ------ DYNAMIC PROGRAMMING ----- ###
 
+def howSum(t, nums, acc = [], d = dict()):
+    
+    # print(t, nums, acc, d)
+    
+    if t in d:
+        return d[t]
+    
+    if (t == 0):
+        return acc
+    
+    if (t < 0):
+        acc.clear()
+        return []
+    
+    for num in nums:
+        
+        newT = t - num
+        acc1 = acc.copy()
+        acc1.append(num)
+        res = howSum(newT, nums, acc1, d)
+        d[newT] = res
+        if (res):
+            return res
+    
+    d[t] = []
+    return []
+
+print(howSum(7, [7], [], dict()))
+print(howSum(7, [1], [], dict()))
+print(howSum(7, [2,3], [], dict()))
+print(howSum(72, [5,3,4,7], [], dict()))
+print(howSum(300, [7,14], [], dict()))
 
 def canSum(t, nums, d = dict()):
     
