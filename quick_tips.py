@@ -1240,3 +1240,73 @@ class PayrollCalculator:
     def printPayroll(self):
         for employee in self.employees:
             print(employee.getSalary())
+            
+            
+            
+### ------ DYNAMIC PROGRAMMING ----- ###
+
+
+def canSum(t, nums, d = dict()):
+    
+    if t in d:
+        return d[t]
+    
+    if t == 0:
+        return True
+    
+    if t < 0:
+        return False
+    
+    for num in nums:
+        
+        newTarget = t - num
+        newCanSum = canSum(newTarget, nums, d)
+        if newCanSum:
+            return True
+        
+    d[t] = False
+    return False
+
+print(canSum(300,[7,14]))
+# print(canSum(7,[2,4,1]))
+# print(canSum(7,[1]))
+# print(canSum(7,[2,2]))
+
+def fib(n, d= dict()):
+    
+    if n in d:
+        return d[n]
+    
+    if n <= 2:
+        return 1
+    
+    d[n] = fib(n-1, d) + fib(n-2, d)
+    
+    return d[n]
+
+# print(fib(50))
+
+
+def gridTraveler(m, n, d = dict()):
+    
+    key = "{}_{}".format(m,n)
+    
+    if key in d:
+        return d[key]
+    
+    if m == 0 or n == 0:
+        return 0
+    
+    if m == 1 and n == 1:
+        return 0
+    
+    if (m == 1 and n > 1) or (n == 1 and m > 1):
+        return 1
+    
+    d[key] =  gridTraveler(m - 1, n, d) + gridTraveler(m, n-1, d)
+    
+    return d[key]
+
+# print(gridTraveler(18,18))
+
+
