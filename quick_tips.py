@@ -1241,8 +1241,52 @@ class PayrollCalculator:
         for employee in self.employees:
             print(employee.getSalary())
             
-            
-            
+### ------ Merkle Tree ----- ###
+
+def merkleHash(node):
+    
+    if not node:
+        return "#"
+    
+    v = str(node.val)
+    hashFunc = hashlib.sha256()
+    hashFunc.update(v.encode("utf-8"))
+    vHash = hashFunc.hexdigest()
+    
+    leftHash = merkleHash(node.left) 
+    rightHash = merkleHash(node.right) 
+    
+    combined = leftHash + "_" + vHash + "_" + rightHash
+    hashFunc.update(combined.encode("utf-8"))
+    node.merkle = hashFunc.hexdigest()
+    return node.merkle
+    
+t1 = TreeNode(10)
+t2 = TreeNode(15)
+t3 = TreeNode(20, t1, t2)
+t4 = TreeNode(50, t1, t3)
+
+
+
+merkleHash(t4)
+print(t4)
+
+def isSubTree(root, subRoot):
+    
+    merkleHash(root)
+    merkleHash(subRoot)
+    
+    if not root:
+        return False
+    else:
+        if (subRoot.merkle == root.merkle):
+            return True
+        else:
+            return isSubTree(root.left, subRoot) or isSubTree(root.right, subRoot)
+        
+print(isSubTree(t3,t1))
+    
+
 ### ------ DYNAMIC PROGRAMMING ----- ###
 
 def howSum(t, nums, acc = [], d = dict()):
@@ -1340,5 +1384,7 @@ def gridTraveler(m, n, d = dict()):
     return d[key]
 
 # print(gridTraveler(18,18))
+
+
 
 
