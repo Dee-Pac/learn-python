@@ -122,7 +122,45 @@ nums3 = [6,7,8,9,1,2,3,4,5]
 # howManyRotated(nums3)
 
                 
-                
+def findElementInSortedRotatedArray(nums, num):
+    
+    size = len(nums)
+    end = size - 1
+    start = 0
+    
+    while (start <= end):
+        
+        offset = (end-start)//2
+        middle = start + offset
+        
+        # print(start, end, middle)
+        
+        if (num == nums[middle]):
+            return middle
+        
+        isLeftSorted = nums[start] <= nums[middle-1]
+        isRightSorted = nums[middle+1] <= nums[end]
+        isNumInLeftRange = num >= nums[start] and num <= nums[middle-1]
+        isNumInRightRange = num >= nums[middle+1] and num <= nums[end]  
+        
+        if (isLeftSorted):
+            if isNumInLeftRange:
+                end = middle-1
+            else:
+                start = middle+1
+        else:
+            if isNumInRightRange:
+                start = middle+1
+            else:
+                end= middle-1
+
+        # print(start, end, middle)
+            
+    return -1
+
+# print(findElementInSortedRotatedArray([6,1,2,3,4,5],4))
+# print(findElementInSortedRotatedArray([6,1,2,3,4,5],1))
+# print(findElementInSortedRotatedArray([6,7,8,9,1],1))                
 
             
 
