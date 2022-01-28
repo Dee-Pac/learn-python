@@ -214,11 +214,239 @@ def mergeSort(nums, s = None, e = None):
     
     return merge(mergeSort(nums,s,m), mergeSort(nums,m+1,e))
 
-import random
-num2 = list(range(1,30,3))
-random.shuffle(num2)
-print(num2)
-print(mergeSort(num2))
+#import random
+#num2 = list(range(1,30,3))
+#random.shuffle(num2)
+#print(num2)
+#print(mergeSort(num2))
+
+class ListNode:
+    
+    def __init__(self, data, back = None):
+        self.data = data
+        self.next = back
+        
+    def __repr__(self):
+        return str(self.__dict__)
+    
+    
+a = ListNode("a")
+b = ListNode("b", a)
+c = ListNode("c", b)
+d = ListNode("d", c)
+
+# print(d)
+
+def reverseList(node):
+    
+    currNode = node
+    prevNode = None
+    
+    while currNode:
+        tmp = currNode.next
+        # print(prevNode, currNode, tmp)
+        currNode.next = prevNode
+        prevNode = currNode
+        currNode = tmp
+        
+    return prevNode
+
+# print(reverseList(d))
+    
+def reverseListRec(currNode, prevNode = None):
+    
+    if (currNode == None):
+        return prevNode
+    
+    tmp = currNode.next
+    currNode.next = prevNode
+    prevNode = currNode
+
+    return reverseListRec(tmp, prevNode)
+
+# print(reverseListRec(d))
+    
+n1 = ListNode(1)
+n2 = ListNode(2)
+n3 = ListNode(3)
+n4 = ListNode(4)
+n5 = ListNode(5)
+
+n1.next = n3
+n3.next = n5
+n2.next = n4
+
+# print(n1)
+# print(n2)
+        
+def mergeSortedLinkedList(a, b):
+    
+    if (a == None):
+        return b
+    if (b == None):
+        return a
+    
+    if (a.data <= b.data):
+        a.next = mergeSortedLinkedList(a.next, b)
+        return a
+    else:
+        b.next = mergeSortedLinkedList(b.next, a)
+        return b
+    
+# print(mergeSortedLinkedList(n1, n2))
+
+
+class TreeNode:
+    
+    def __init__(self, data, left = None, right = None):
+        self.data = data
+        self.left = left
+        self.right = right
+        
+    def __repr__(self):
+        return str(self.__dict__)
+
+    
+def insertIntoBSTreeRec1(node, data):
+    
+    if node == None:
+        return
+    
+    if node.data == data:
+        return
+    
+    if (data <= node.data):
+        if (node.left):
+            insertIntoBSTreeRec1(node.left, data)
+        else:
+            node.left = TreeNode(data)
+    else:
+        if (node.right):
+            insertIntoBSTreeRec1(node.right, data)
+        else:
+            node.right = TreeNode(data)
+            
+
+n10 = TreeNode(10)
+n8 = TreeNode(8)
+n4 = TreeNode(4)
+n9 = TreeNode(9)
+n12 = TreeNode(12)
+n8.left = n4
+n8.right = n9
+n10.left = n8
+n10.right = n12
+
+# print(n10)
+# insertIntoBSTreeRec1(n10, 5)
+# print(n10)
+
+def insertIntoBSTreeRec(data, node = None):
+    
+    if node == None:
+        return TreeNode(data)
+    
+    if node.data == data:
+        return node
+    
+    if (data <= node.data):
+        node.left = insertIntoBSTreeRec(data, node.left)
+    else:
+        node.right = insertIntoBSTreeRec(data, node.right)
+
+    return node
+
+n1 = None
+for num in [20,5,4,6,3,7,9,40]:
+    n1 = insertIntoBSTreeRec(num, n1)
+# print(n1)
+        
+def printAllLeaves(treeNode):
+    
+    if (treeNode == None):
+        return
+    
+    if (not treeNode.left and not treeNode.right):
+        print(treeNode.data)
+        
+    printAllLeaves(treeNode.left)
+    printAllLeaves(treeNode.right)
+
+# printAllLeaves(n1)
+
+#          20
+#        5    40
+#      4   6
+#    3       7
+#              9
+    
+    
+graph = {
+    "a" : ["b"],
+    "b" : ["c"],
+    "c" : ["d"],
+    "d" : ["e", "g"],
+    "g" : ["h"],
+    "h" : [],
+    "e" : ["f"],
+    "f" : ["i", "j", "k"],
+    "i" : [],
+    "j" : [],
+    "k" : ["a"]
+}
+
+# print(graph)
+
+def bfsGraph(graph, node, visited = set()):
+    
+    q = [node]
+    path = []
+    
+    while q:
+        currNode = q.pop(0)
+        if currNode not in visited:
+            visited.add(currNode)
+            path.append(currNode)
+            adjacentNodes = graph.get(currNode, [])
+            for node in adjacentNodes:
+                q.append(node)
+            
+    print(path)
+    
+def dfsGraphIter(graph, node, visited = set()):
+    
+    s = [node]
+    path = []
+    
+    while s:
+        currNode = s.pop()
+        if currNode not in visited:
+            visited.add(currNode)
+            path.append(currNode)
+            adjNodes = graph.get(currNode, [])
+            for node in adjNodes:
+                s.append(node)
+            
+    print(path)
+    
+def dfsGraphRec(graph, node, path, visited = set()):
+    
+    if (len(path) == 0):
+        path = [node]
+        visited.add(node)
+
+    for adjNode in graph[node]:
+        if adjNode not in visited:
+            path.append(adjNode)
+            visited.add(adjNode)
+            dfsGraphRec(graph, adjNode, path)
+    
+    return path
+
+    
+# bfsGraph(graph, "a")
+# dfsGraphIter(graph, "a")
+# print(dfsGraphRec(graph, "a", []))
 
 
     
