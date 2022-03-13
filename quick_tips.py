@@ -1,4 +1,17 @@
 print("+++++++++++++++++++++++++++++++++++++")
+print("------BINARY------")
+print("+++++++++++++++++++++++++++++++++++++")
+
+# https://youtu.be/NLKQEOgBAnw
+print("left shifting logically is multiplication", 3 << 2 == 12)
+print("right shifting logically is division with floor", 5 >> 2 == 1)
+print("Mask of an 3rd bit is left shift 1 by 3 times", 1 << 3 != 0)
+print("Getting ith bit in a number is number & mask", 9 & (1 << 3) != 0)
+print("Setting ith bit in a number is number & mask", 0 | (1 << 3) == 8 )
+print("Clearing ith bit in a number is number & mask", 8 & ~(1 << 3) == 0 )
+print("converting -123 to binary", ~123 + 1)
+
+print("+++++++++++++++++++++++++++++++++++++")
 print("------Randomize------")
 print("+++++++++++++++++++++++++++++++++++++")
 
