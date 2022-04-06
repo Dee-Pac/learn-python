@@ -2,6 +2,7 @@ from typing import List
 import unittest
 from unittest import TestCase
 import sys
+import threading
 
 class BinarySearch(object):
 
@@ -81,6 +82,25 @@ class BinarySearch(object):
 
         return res
 
+    @classmethod
+    def mountainPeak(self, nums: List[int]) -> int:
+
+        res = -1 * sys.maxsize
+
+        start = 0
+        end = len(nums) - 1
+
+        while (start <= end):
+
+            middle = (start + end) // 2
+
+            if (nums[middle] >= nums[middle + 1]):
+                res = middle
+                end = middle - 1
+            else:
+                start = middle + 1
+
+        return res
 
 
 class TestBinarySearch(TestCase):
@@ -147,6 +167,25 @@ class TestBinarySearch(TestCase):
             nums = inputs[0]
             expected = inputs[1]
             self.assertEqual(self.search.minSortedRotatedArray(nums), expected, "testMinSortedRotatedArray | {}".format(inputs))
+
+    def testMountainPeak(self):
+
+        print(threading.current_thread().getName())
+
+        testSetMountainPeak = [
+            ([0,1,2,3,1],3),
+            ([0,1,0],1),
+            ([1,10,2,1],1),
+            ([0, 1, 2, 3, 2, 1, 0], 3),
+            ([0, 10, 3, 2, 1, 0],1),
+            ([0, 10, 0],1)
+        ]
+
+        for inputs in testSetMountainPeak:
+            nums = inputs[0]
+            expected = inputs[1]
+            self.assertEqual(self.search.mountainPeak(nums), expected, "testMountainPeak | {}".format(inputs))
+
 
     def tearDown(self):
 
